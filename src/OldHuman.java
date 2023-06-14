@@ -2,14 +2,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class OldHuman extends Peoples implements PrintText {
+public class OldHuman implements PrintText, AddGameInterface, GetGameInterface, RemoveGameInterface, PayForGameInterface {
     protected String name;
     protected String mail;
     protected int age;
+    protected int cash;
     protected List<Game> listGameForUser = new ArrayList<>();
 
-    public OldHuman(String name, String mail, int age) {
-        super(name, mail, age);
+    public OldHuman(String name, String mail, int age, int cash) {
+        this.name = name;
+        this.mail = mail;
+        this.age = age;
+        this.cash = cash;
     }
 
     @Override
@@ -56,5 +60,22 @@ public class OldHuman extends Peoples implements PrintText {
     @Override
     public void printText() {
         System.out.println("The game has been added to the user's shopping cart!");
+    }
+
+    @Override
+    public int pay() {
+        int price = 0;
+        int countPay = 0;
+        for (int i = 0; i < listGameForUser.size(); i++) {
+            price += listGameForUser.get(i).price;
+            if (price <= cash) {
+                countPay++;
+                cash -= price;
+                removeGame(listGameForUser.get(i).title);
+            } else {
+                System.out.println("Not enough money");
+            }
+        }
+        return countPay;
     }
 }

@@ -6,13 +6,13 @@ public class Main {
          *
          *
          *
-         *
-         * 2 принципе solid : Добавил как пример Open-closed principle, что код изменился, но по сути структура та же
-         * не смог уже ничего лучше придумать, когда нет конкретнрого задания и српоки ограничены
-         *
+         */
+
+        /**
          * 4 принцип solid : максимально использовал интерфейс PrintText не только для печати привет и пока,
          * но и для печати уведомлений об добавлении игр в классах AddGames, OldHuman, YongHuman
          */
+        Calculator calcGame = new Calculator();
         PrintHi printHi = new PrintHi();
         PrintBy printBy = new PrintBy();
         printHi.printText();
@@ -45,32 +45,48 @@ public class Main {
                 .setPrice(900)
                 .setGanre("шутер")
                 .build();
-        /**
-         *1 принцип solid, класс который добавляет новые игры в магазин
-         **/
+
+        //TODO 1 принцип solid,
+        // наверно тогда должно подойти то,
+        // что Sort выполняет только сортировку,
+        // принты только печатают,
+        // Calculator только количество проданных игр
+        // (его метод вызываю ниже, когда user делает оплату, строка 74, 75, 81, 82 )
+
         AddGames addGames = new AddGames()
                 .addGame(game1)
                 .addGame(game2)
                 .addGame(game3);
 
+        calcGame.printText();
         printInfo(addGames);
 
-        /**
-         * 3 принцип solid, сделал двух людей старого и молождого, отличий там немного, но это принципе Liskov substitution principle
-         * так как это люди независимо от возраста и статуса
-         */
+        //TODO 2 принцип - Open-closed principle - я сделал калькулятор, который будет работать при оплате,
+        // таким образом можно посчитать количество проданных игр или переделать под расчет других единиц
 
-        OldHuman people1 = new OldHuman("Alex", "ttt@mail.com", 20);
+        //TODO 3 принцип - Liskov substitution principle - я сделал например интерфейс AddGameInterface,
+        // через него я добавляю игры в список магазина и список пользователя,
+        // таким образом я не наслудуюсь например пользователем от магазина,
+        // так как в магазине я еще и соритрую игры,считаю их колдичество, считает количество игр с возрастным ограничением,
+        // а пользователю в данном случае это не важно, так как он не будет например добавлять игры по 100 и более штук,
+        // а игры для взрослых в моем случае купить можно, но родители будут знать, так как они получают уведомление,
+        // т.е. логика метода изменилась, значит наследование отного классса от другого уже нельзя, для этого сделан интерфейс.
+        // Надеюсь я верно понял принципы)
+
+
+        OldHuman people1 = new OldHuman("Alex", "ttt@mail.com", 20, 100000);
         System.out.println(people1);
         people1.addGame(game1).addGame(game2).getGames();
         people1.removeGame("Prince of Persia");
+        calcGame.calc(people1);
 
-        YongHuman people2 = new YongHuman("Anton", "taatt@mail.com", 10, "Anna Viktorovna");
+        YongHuman people2 = new YongHuman("Anton", "taatt@mail.com", 10, "Anna Viktorovna", 2000);
         System.out.println(people2);
         people2.addGame(game1).addGame(game2).getGames();
         people2.removeGame("BioShock");
+        calcGame.calc(people2);
 
-
+        calcGame.printText();
         printBy.printText();
     }
 

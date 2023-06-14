@@ -31,6 +31,7 @@ public class Game {
         return price;
     }
 
+
     public int getAgeRestriction() {
         return Math.max(ageRestriction, 0);
     }
